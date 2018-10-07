@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PowerLinks
 {
@@ -14,10 +10,12 @@ namespace PowerLinks
         /// <param name="linkStation">Linkstation element</param>
         /// <param name="distance">Distance between link station and device</param>
         /// <returns>Returns power</returns>
-        public double CalcPower(LinkStation linkStation, double distance)
+        public double CalcPower(Device device, LinkStation linkStation)
         {
-            if (linkStation.powerReach > distance)
-                return Math.Round(Math.Pow(linkStation.powerReach - distance, 2), 2);
+            double distance = CalcDistance(device,linkStation);
+
+            if (linkStation.reach > distance)
+                return Math.Round(Math.Pow(linkStation.reach - distance, 2), 2);
             else
                 return 0;
         }
@@ -28,7 +26,7 @@ namespace PowerLinks
         /// <param name="device">Device element</param>
         /// <param name="linkStation">Link Station element</param>
         /// <returns>Returns distance between device and link station in 2D space</returns>
-        public double CalcDistance(Device device, LinkStation linkStation)
+        private double CalcDistance(Device device, LinkStation linkStation)
         {
             double xDistance = device.posX - linkStation.posX;
             double yDistance = device.posY - linkStation.posY;

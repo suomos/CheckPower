@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace PowerLinks
 {
@@ -38,19 +26,22 @@ namespace PowerLinks
             devices.Add(new Device { posX = 15, posY = 10 });
             devices.Add(new Device { posX = 18, posY = 18 });
 
-            linkStations.Add(new LinkStation { posX = 0, posY = 0, powerReach = 10 });
-            linkStations.Add(new LinkStation { posX = 20, posY = 20, powerReach = 5 });
-            linkStations.Add(new LinkStation { posX = 10, posY = 0, powerReach = 12 });
+            linkStations.Add(new LinkStation { posX = 0, posY = 0, reach = 10 });
+            linkStations.Add(new LinkStation { posX = 20, posY = 20, reach = 5 });
+            linkStations.Add(new LinkStation { posX = 10, posY = 0, reach = 12 });
         }
 
-        private void btnRun_Click(object sender, RoutedEventArgs e)
+        private void btnCheck_Click(object sender, RoutedEventArgs e)
         {
+            //Loop all devices and print out results
             foreach (Device dev in devices)
             {
+                //Calculate power for each link station compared to device
                 foreach (LinkStation ls in linkStations)
                 {
-                    ls.power = frmls.CalcPower(ls, frmls.CalcDistance(dev, ls));
+                    ls.power = frmls.CalcPower(dev, ls);
                 }
+                //Find Link Station with most power and print results
                 lstOutputs.Items.Add(frmls.PrintResult(dev, linkStations.OrderByDescending(i => i.power).First()));
             }
         }
